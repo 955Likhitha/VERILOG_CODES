@@ -1,0 +1,19 @@
+module full_adder(a,b,c,sum,carry);
+input a,b,c;
+output sum,carry;
+begin
+assign sum=a^b^c;
+assign carry=(a&b)|((a^b)&c);
+end
+endmodule
+module ripple_carryadder_fulladder(a_input,b_input,sum_output,carry_output,c);
+input [3:0]a_input;//4bit
+input [3:0]b_input,c;
+output [3:0]sum_output;
+output [3:0]carry_output;
+//instantiating ripple adder using full adders;4 full adders r required for 4 bit ripple carry adder//
+full_adder f1(.carry(carry_output[0]),.sum(sum_output[0]),.a(a_input[0]),.b(b_input[0]),.c(c));
+full_adder f2(.carry(carry_output[1]),.sum(sum_output[1]),.a(a_input[1]),.b(b_input[1]),.c(carry_output[0]));
+full_adder f3(.carry(carry_output[2]),.sum(sum_output[2]),.a(a_input[2]),.b(b_input[2]),.c(carry_output[1]));
+full_adder f4(.carry(carry_output[3]),.sum(sum_output[3]),.a(a_input[3]),.b(b_input[3]),.c(carry_output[2]));
+endmodule
