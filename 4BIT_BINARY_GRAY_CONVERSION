@@ -1,0 +1,35 @@
+module b_g_(b,g);
+    input [3:0] b;
+    output [3:0] g;
+    assign g[3]=b[3];
+    assign g[2]=b[3]^b[2];
+    assign g[1]=b[2]^b[1];
+    assign g[0]=b[1]^b[0];
+endmodule
+//Testbench//
+module b_g_tb();
+ reg [3:0] t_b;
+   wire [3:0] t_g;
+   b_g_ dut(.b(t_b),.g(t_g));
+   initial
+   begin
+   t_b=0000;
+   #10 t_b=4'b0001;//t_b=4'd1
+      #10 t_b=4'b0010;//t_b=4'd2
+       #10 t_b=4'b0011; 
+        #10 t_b=4'b0100;
+         #10 t_b=4'b0101;
+          #10 t_b=4'b0110;
+           #10 t_b=4'b0111;
+            #10 t_b=4'b1000;
+             #10 t_b=4'b1001;
+              #10 t_b=4'b1010;
+               #10 t_b=4'b1011;
+                #10 t_b=4'b1100;
+                 #10 t_b=4'b1101;
+                  #10 t_b=4'b1110;
+                   #10 t_b=4'b1111;
+                   #10 $finish;
+     
+   end
+endmodule
