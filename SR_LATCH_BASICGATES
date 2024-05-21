@@ -1,0 +1,17 @@
+module sr_latch_basicgates(e,s,r,q,qbar);
+input e,s,r;
+output reg q,qbar;
+always@(e,s,r)
+begin
+if(e)
+begin
+assign q=~(s&qbar);
+assign qbar=~(r&q);
+end
+else
+begin
+assign q=1'bx;
+assign qbar=1'bx;
+end
+end
+endmodule
