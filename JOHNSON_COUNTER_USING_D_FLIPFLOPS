@@ -1,0 +1,29 @@
+module d_ff(d,clk,rst,q,qbar);
+input d,clk,rst;
+output reg q,qbar;
+always@(posedge clk)//only operation is performed during positive edge of clk
+begin
+if(rst)//reset==1
+begin
+q<=1'b0;
+qbar<=1'b1;
+end
+else
+begin
+q<=d;
+qbar<=~d;
+end
+end
+endmodule
+module johnson_counter_dff(r_clk,r_rst,r_q,r_qbar);
+input r_clk,r_rst;
+output [3:0]r_q;
+output [3:0]r_qbar;
+wire w1;
+assign w1=~r_qbar[0];
+//Instantiating Using D FLIPFLOPS
+d_ff d1(.d(w1),.clk(r_clk),.rst(r_rst),.q(r_q[3]),.qbar(r_qbar[3]));
+d_ff d2(.d(r_q[3]),.clk(r_clk),.rst(r_rst),.q(r_q[2]),.qbar(r_qbar[2]));
+d_ff d3(.d(r_q[2]),.clk(r_clk),.rst(r_rst),.q(r_q[1]),.qbar(r_qbar[1]));
+d_ff d4(.d(r_q[1]),.clk(r_clk),.rst(r_rst),.q(r_q[0]),.qbar(r_qbar[0]));
+endmodule
