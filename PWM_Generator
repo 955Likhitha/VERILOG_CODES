@@ -1,0 +1,56 @@
+//design
+module pwm_(clock,reset,duty_cycle,out);
+input clock,reset;
+input [2:0] duty_cycle;
+output reg out;
+reg [2:0] count;
+always@(posedge clock)
+begin
+if(reset)
+begin
+count<=2'd0;
+end
+else
+count=count+1;
+if(count>=duty_cycle)
+begin
+out<=0;
+end
+else
+begin
+out<=1;
+end
+end
+endmodule
+module led_control(clk,rst,brightness,out);
+input clk,rst;
+input [2:0] brightness;
+output out;
+pwm_ p1(.clock(clk),.reset(rst),.duty_cycle(brightness),.out(out));
+endmodule
+//testbench//
+module ledcontrol_tb();
+reg t_clk,t_rst;
+reg [2:0] t_brightness;
+wire t_out;
+led_control testbench_instantiate(.clk(t_clk),.rst(t_rst),.brightness(t_brightness),.out(t_out));
+always #5 t_clk=~t_clk;
+initial
+begin
+t_clk=0;
+t_rst=1;t_brightness=4'd1;
+#50 t_rst=0;t_brightness=4'd1;
+#50 t_rst=1;t_brightness=4'd2;
+#50 t_rst=0;t_brightness=4'd2;
+#50 t_rst=1;t_brightness=4'd3;
+#50 t_rst=0;t_brightness=4'd3;
+#50 t_rst=1;t_brightness=4'd4;
+#50 t_rst=0;t_brightness=4'd4;
+#50 t_rst=1;t_brightness=4'd5;
+#50 t_rst=0;t_brightness=4'd5;
+#50 t_rst=1;t_brightness=4'd6;
+#50 t_rst=0;t_brightness=4'd6;
+#50 t_rst=1;t_brightness=4'd7;
+#50 t_rst=0;t_brightness=4'd7;
+#1000 $finish;
+end
